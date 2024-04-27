@@ -1,0 +1,30 @@
+-- models/schema.yml
+
+models:
+  - name: dim_customers
+    description: "Dimension table for customer details. Includes information such as customer name and the date of their first purchase."
+    columns:
+      - name: customer_id
+        description: "Unique identifier for the customer."
+        tests:
+          - unique
+          - not_null
+      - name: full_name
+        description: "Customer's full name."
+      - name: first_purchase_date
+        description: "Date of the first purchase made by the customer."
+        tests:
+          - not_null
+
+  - name: fct_sales
+    description: "Fact table for sales transactions. Summarizes total revenue from sales orders."
+    columns:
+      - name: sales_order_id
+        description: "Unique identifier for each sales order."
+        tests:
+          - unique
+          - not_null
+      - name: total_revenue
+        description: "Total revenue generated from the sales order."
+        tests:
+          - not_null

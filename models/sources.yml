@@ -1,0 +1,16 @@
+sources:
+  - name: sap_adw
+    database: EQUATORIAL
+    schema: SAP_ADW
+    tables:
+      - name: employee
+
+      - name: person
+
+      - name: product
+
+      - name: salesorderdetail
+
+      - name: salesorderheader
+
+      - name: customer

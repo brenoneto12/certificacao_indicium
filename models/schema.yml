@@ -1,30 +1,181 @@
--- models/schema.yml
+version: 2
 
 models:
-  - name: dim_customers
-    description: "Dimension table for customer details. Includes information such as customer name and the date of their first purchase."
+  - name: dim_employees
+    description: "Tabela de dimensão para dados dos funcionários."
     columns:
-      - name: customer_id
-        description: "Unique identifier for the customer."
+      - name: sk_funcionarios
+        description: "Chave surrogada para a dimensão dos funcionários."
         tests:
           - unique
           - not_null
-      - name: full_name
-        description: "Customer's full name."
-      - name: first_purchase_date
-        description: "Date of the first purchase made by the customer."
+      - name: id_funcionario
+        description: "Identificador único do funcionário."
         tests:
           - not_null
+      - name: numero_id_nacional
+        description: "Número de identificação nacional do funcionário."
+      - name: id_login
+        description: "Identificador de login do funcionário."
+      - name: titulo_trabalho
+        description: "Título de trabalho do funcionário."
+      - name: data_nascimento
+        description: "Data de nascimento do funcionário."
+      - name: estado_civil
+        description: "Estado civil do funcionário."
+      - name: genero
+        description: "Gênero do funcionário."
+      - name: data_contratacao
+        description: "Data de contratação do funcionário."
+      - name: flag_salaried
+        description: "Indica se o funcionário é assalariado."
+      - name: horas_ferias
+        description: "Total de horas de férias do funcionário."
+      - name: horas_atestado
+        description: "Total de horas de atestado médico do funcionário."
+      - name: flag_atual
+        description: "Indica se o registro do funcionário está atual."
+      - name: guid_linha
+        description: "Identificador global único para o registro."
+      - name: data_modificacao
+        description: "Data da última modificação do registro."
 
-  - name: fct_sales
-    description: "Fact table for sales transactions. Summarizes total revenue from sales orders."
+  - name: dim_customers
+    description: "Tabela de dimensão para dados dos clientes."
     columns:
-      - name: sales_order_id
-        description: "Unique identifier for each sales order."
+      - name: sk_clientes
+        description: "Chave surrogada para a dimensão dos clientes."
         tests:
           - unique
           - not_null
-      - name: total_revenue
-        description: "Total revenue generated from the sales order."
+      - name: id_cliente
+        description: "Identificador único do cliente."
         tests:
           - not_null
+      - name: id_pessoa
+        description: "Identificador da pessoa associada ao cliente."
+      - name: id_loja
+        description: "Identificador da loja associada ao cliente, se aplicável."
+      - name: id_territorio
+        description: "Identificador do território de vendas do cliente."
+      - name: guid_linha
+        description: "Identificador global único para o registro."
+      - name: data_modificacao
+        description: "Data da última modificação do registro."
+
+  - name: dim_products
+    description: "Tabela de dimensão para dados dos produtos."
+    columns:
+      - name: sk_produtos
+        description: "Chave surrogada para a dimensão dos produtos."
+        tests:
+          - unique
+          - not_null
+      - name: id_produto
+        description: "Identificador único do produto."
+        tests:
+          - not_null
+      - name: nome_produto
+        description: "Nome do produto."
+      - name: numero_produto
+        description: "Número de série ou modelo do produto."
+      - name: flag_fabricado
+        description: "Indica se o produto é fabricado pela empresa."
+      - name: flag_produto_finalizado
+        description: "Indica se o produto é um bem finalizado."
+      - name: cor
+        description: "Cor do produto."
+      - name: nivel_estoque_seguranca
+        description: "Nível de estoque de segurança para o produto."
+      - name: ponto_reordenacao
+        description: "Ponto de reordenação do estoque para o produto."
+      - name: custo_padrao
+        description: "Custo padrão de produção do produto."
+      - name: preco_lista
+        description: "Preço de lista do produto para venda."
+      - name: tamanho
+        description: "Tamanho do produto."
+      - name: codigo_unidade_medida_tamanho
+        description: "Código da unidade de medida para o tamanho do produto."
+      - name: codigo_unidade_medida_peso
+        description: "Código da unidade de medida para o peso do produto."
+      - name: peso
+        description: "Peso do produto."
+      - name: dias_para_fabricacao
+        description: "Número de dias necessários para fabricar o produto."
+      - name: linha_produto
+        description: "Linha de produtos à qual o produto pertence."
+      - name: classe
+        description: "Classe do produto."
+      - name: estilo
+        description: "Estilo do produto."
+      - name: id_subcategoria_produto
+        description: "Identificador da subcategoria do produto."
+      - name: id_modelo_produto
+        description: "Identificador do modelo do produto."
+      - name: data_inicio_vendas
+        description: "Data de início das vendas do produto."
+      - name: data_fim_vendas
+        description: "Data de término das vendas do produto."
+      - name: data_descontinuacao
+        description: "Data em que o produto foi descontinuado."
+      - name: guid_linha
+        description: "Identificador global único para o registro."
+      - name: data_modificacao
+        description: "Data da última modificação do registro."
+
+  - name: dim_pessoas
+    description: "Tabela de dimensão para dados de pessoas, englobando informações de clientes e funcionários."
+    columns:
+      - name: sk_pessoas
+        description: "Chave surrogada para a dimensão de pessoas."
+        tests:
+          - unique
+          - not_null
+      - name: id_pessoa
+        description: "Identificador único da pessoa."
+        tests:
+          - not_null
+      - name: tipo_pessoa
+        description: "Tipo de pessoa (cliente, funcionário, etc.)."
+      - name: estilo_nome
+        description: "Indica o estilo do nome (Ocidental ou Oriental)."
+      - name: titulo
+        description: "Título da pessoa (Sr., Sra., Dr., etc.)."
+      - name: nome
+        description: "Primeiro nome da pessoa."
+      - name: nome_do_meio
+        description: "Nome do meio da pessoa."
+      - name: sobrenome
+        description: "Sobrenome da pessoa."
+      - name: sufixo
+        description: "Sufixo no nome da pessoa (Jr., Sr., III, etc.)."
+      - name: promocao_email
+        description: "Indica se a pessoa optou por receber promoções por email."
+      - name: info_contato_adicional
+        description: "Informações adicionais de contato."
+      - name: demograficos
+        description: "Informações demográficas em formato XML."
+      - name: guid_linha
+        description: "Identificador global único para a linha."
+      - name: data_modificacao
+        description: "Data em que o registro foi modificado pela última vez."
+
+  - name: fato_vendas
+    description: "Tabela fato que consolida informações detalhadas de vendas, incluindo detalhes sobre pedidos, produtos e clientes. Esta tabela também estabelece uma ligação com a dimensão de pessoas para enriquecer as análises de vendas com informações demográficas e de contato."
+    columns:
+      - name: sk_vendas
+        description: "Chave surrogada única para cada transação de venda."
+        tests:
+          - unique
+          - not_null
+      - name: chave_pessoa
+        description: "Chave surrogada referenciando a dimensão de pessoas, vinculando vendas a informações demográficas e de contato."
+        tests:
+          - foreign_key:
+              target_model: ref('dim_pessoas')
+              field: sk_pessoas
+      - name: guid_linha
+        description: "Identificador global único para a linha do registro."
+      - name: data_modificacao
+        description: "Data da última modificação do registro."

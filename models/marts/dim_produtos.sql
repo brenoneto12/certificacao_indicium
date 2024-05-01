@@ -1,0 +1,61 @@
+{{ config(materialized='table') }}
+
+WITH source_data AS (
+    SELECT
+        productid AS id_produto,
+        name AS nome_produto,
+        productnumber AS numero_produto,
+        makeflag AS flag_fabricado,
+        finishedgoodsflag AS flag_produto_finalizado,
+        color AS cor,
+        safetystocklevel AS nivel_estoque_seguranca,
+        reorderpoint AS ponto_reordenacao,
+        standardcost AS custo_padrao,
+        listprice AS preco_lista,
+        size AS tamanho,
+        sizeunitmeasurecode AS codigo_unidade_medida_tamanho,
+        weightunitmeasurecode AS codigo_unidade_medida_peso,
+        weight AS peso,
+        daystomanufacture AS dias_para_fabricacao,
+        productline AS linha_produto,
+        class AS classe,
+        style AS estilo,
+        productsubcategoryid AS id_subcategoria_produto,
+        productmodelid AS id_modelo_produto,
+        sellstartdate AS data_inicio_vendas,
+        sellenddate AS data_fim_vendas,
+        discontinueddate AS data_descontinuacao,
+        rowguid AS guid_linha,
+        modifieddate AS data_modificacao,
+        ROW_NUMBER() OVER (PARTITION BY productid ORDER BY modifieddate DESC) AS rn
+    FROM EQUATORIAL.SAP_ADW.PRODUCT
+)
+SELECT
+    MD5(id_produto || data_modificacao) AS sk_produtos,
+    id_produto,
+    nome_produto,
+    numero_produto,
+    flag_fabricado,
+    flag_produto_finalizado,
+    cor,
+    nivel_estoque_seguranca,
+    ponto_reordenacao,
+    custo_padrao,
+    preco_lista,
+    tamanho,
+    codigo_unidade_medida_tamanho,
+    codigo_unidade_medida_peso,
+    peso,
+    dias_para_fabricacao,
+    linha_produto,
+    classe,
+    estilo,
+    id_subcategoria_produto,
+    id_modelo_produto,
+    data_inicio_vendas,
+    data_fim_vendas,
+    data_descontinuacao,
+    guid_linha,
+    data_modificacao
+FROM source_data
+WHERE rn = 1
